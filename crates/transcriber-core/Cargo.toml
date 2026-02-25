@@ -1,0 +1,25 @@
+[package]
+name = "transcriber-core"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = { workspace = true }
+byteorder = { workspace = true }
+candle-core = { workspace = true }
+candle-nn = { workspace = true }
+candle-transformers = { workspace = true }
+hf-hub = { workspace = true }
+hound = { workspace = true }
+notify = { workspace = true }
+ort = { workspace = true }
+rand = { workspace = true }
+rodio = { workspace = true }
+rubato = { workspace = true }
+serde_json = { workspace = true }
+symphonia = { workspace = true }
+tokenizers = { workspace = true }
+transcribe-rs = { workspace = true, features = ["parakeet"] }
+
+[dev-dependencies]
+tempfile = "3.10"

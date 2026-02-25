@@ -1,0 +1,1 @@
+We need to do a full functionality test in the personal project to make sure that everything is working as it was earlier.

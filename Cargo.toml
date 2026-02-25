@@ -1,0 +1,25 @@
+[workspace]
+members = [
+    "crates/transcriber-core",
+    "crates/transcriber-cli"
+]
+resolver = "2"
+
+[workspace.dependencies]
+anyhow = "1.0"
+byteorder = "1.5.0"
+candle-core = { version = "0.9.2", features = ["metal", "accelerate"] }
+candle-nn = { version = "0.9.2", features = ["metal"] }
+candle-transformers = "0.9.2"
+clap = { version = "4.5.60", features = ["derive"] }
+hf-hub = "0.4.0"
+hound = "3.5.1"
+notify = "6.1"
+ort = "=2.0.0-rc.10"
+rand = "0.10.0"
+rodio = "0.21.1"
+rubato = "0.14.0"
+serde_json = "1.0.149"
+symphonia = { version = "0.5.5", features = ["all"] }
+tokenizers = "0.22.2"
+transcribe-rs = "0.2.5"

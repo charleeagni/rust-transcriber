@@ -1,0 +1,9 @@
+[package]
+name = "transcriber-cli"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+transcriber-core = { path = "../transcriber-core" }
+anyhow = { workspace = true }
+clap = { workspace = true }
