@@ -1,8 +1,9 @@
 pub mod config;
+pub mod moonshine;
 pub mod parakeet;
 pub mod whisper;
 
-pub use config::{RuntimeSelection, TranscriptionConfig};
+pub use config::{DEFAULT_PARAKEET_MODEL, RuntimeSelection, TranscriptionConfig};
 
 use anyhow::{Result, bail};
 use std::path::Path;
@@ -13,6 +14,7 @@ use config::RuntimeSelection as RS;
 pub enum RuntimeBackend {
     Whisper,
     Parakeet,
+    Moonshine,
 }
 
 pub struct Transcriber {
@@ -31,6 +33,9 @@ impl Transcriber {
             RS::Parakeet => {
                 RuntimeBackendImpl::Parakeet(parakeet::ParakeetTranscriber::new(&model_id)?)
             }
+            RS::Moonshine => {
+                RuntimeBackendImpl::Moonshine(moonshine::MoonshineTranscriber::new(&model_id)?)
+            }
             RS::Auto => unreachable!(),
         };
 
@@ -41,6 +46,7 @@ impl Transcriber {
         match self.backend {
             RuntimeBackendImpl::Whisper(_) => RuntimeBackend::Whisper,
             RuntimeBackendImpl::Parakeet(_) => RuntimeBackend::Parakeet,
+            RuntimeBackendImpl::Moonshine(_) => RuntimeBackend::Moonshine,
         }
     }
 
@@ -50,6 +56,9 @@ impl Transcriber {
             RuntimeBackendImpl::Parakeet(_) => {
                 bail!("Parakeet runtime requires a file path input")
             }
+            RuntimeBackendImpl::Moonshine(_) => {
+                bail!("Moonshine runtime requires a file path input")
+            }
         }
     }
 
@@ -57,6 +66,7 @@ impl Transcriber {
         match &mut self.backend {
             RuntimeBackendImpl::Whisper(_) => bail!("Whisper runtime requires decoded PCM input"),
             RuntimeBackendImpl::Parakeet(transcriber) => transcriber.transcribe_path(input_path),
+            RuntimeBackendImpl::Moonshine(transcriber) => transcriber.transcribe_path(input_path),
         }
     }
 }
@@ -64,4 +74,5 @@ impl Transcriber {
 enum RuntimeBackendImpl {
     Whisper(whisper::WhisperTranscriber),
     Parakeet(parakeet::ParakeetTranscriber),
+    Moonshine(moonshine::MoonshineTranscriber),
 }

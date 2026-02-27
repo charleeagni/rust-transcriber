@@ -30,6 +30,9 @@ pub fn transcribe_file_with_config(
         transcriber::RuntimeBackend::Parakeet => transcriber_instance
             .transcribe_path(input_path)
             .context("Error transcribing")?,
+        transcriber::RuntimeBackend::Moonshine => transcriber_instance
+            .transcribe_path(input_path)
+            .context("Error transcribing")?,
     };
 
     writer::write_transcript(output_path, &text).context("Error writing transcript")?;

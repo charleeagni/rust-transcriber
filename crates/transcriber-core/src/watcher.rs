@@ -299,5 +299,8 @@ fn transcribe_single_file(
         transcriber::RuntimeBackend::Parakeet => transcriber_inst
             .transcribe_path(path)
             .context("Error transcribing with Parakeet"),
+        transcriber::RuntimeBackend::Moonshine => transcriber_inst
+            .transcribe_path(path)
+            .context("Error transcribing with Moonshine"),
     }
 }

@@ -11,6 +11,7 @@ fn map_runtime(runtime: cli::RuntimeArg) -> RuntimeSelection {
     match runtime {
         cli::RuntimeArg::Whisper => RuntimeSelection::Whisper,
         cli::RuntimeArg::Parakeet => RuntimeSelection::Parakeet,
+        cli::RuntimeArg::Moonshine => RuntimeSelection::Moonshine,
         cli::RuntimeArg::Auto => RuntimeSelection::Auto,
     }
 }

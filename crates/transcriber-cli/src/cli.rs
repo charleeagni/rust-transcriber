@@ -56,6 +56,7 @@ pub enum Commands {
 pub enum RuntimeArg {
     Whisper,
     Parakeet,
+    Moonshine,
     Auto,
 }
 
