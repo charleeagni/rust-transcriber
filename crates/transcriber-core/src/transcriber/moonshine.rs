@@ -1,8 +1,8 @@
-use anyhow::{Context, Result, bail};
-use hf_hub::{Repo, RepoType, api::sync::Api};
+use anyhow::{bail, Context, Result};
+use hf_hub::{api::sync::Api, Repo, RepoType};
 use std::path::{Path, PathBuf};
-use transcribe_rs::TranscriptionEngine;
 use transcribe_rs::engines::moonshine::{ModelVariant, MoonshineEngine, MoonshineModelParams};
+use transcribe_rs::TranscriptionEngine;
 
 pub(crate) const DEFAULT_MOONSHINE_MODEL: &str = "moonshine-tiny";
 const DEFAULT_MOONSHINE_REPO: &str = "UsefulSensors/moonshine";
@@ -51,9 +51,6 @@ impl MoonshineTranscriber {
             .context("moonshine inference failed")?;
 
         let text = result.text.trim().to_string();
-        if text.is_empty() {
-            bail!("Moonshine inference returned empty transcript");
-        }
 
         Ok(text)
     }
@@ -177,7 +174,7 @@ fn download_moonshine_model_dir(variant: ModelVariant) -> Result<PathBuf> {
 
 #[cfg(test)]
 mod tests {
-    use super::{ModelVariant, MoonshineModelSource, resolve_moonshine_model_source_and_variant};
+    use super::{resolve_moonshine_model_source_and_variant, ModelVariant, MoonshineModelSource};
     use tempfile::tempdir;
 
     #[test]
@@ -195,10 +192,9 @@ mod tests {
     #[test]
     fn variant_small_rejected() {
         let err = resolve_moonshine_model_source_and_variant("moonshine-small").unwrap_err();
-        assert!(
-            err.to_string()
-                .contains("only 'tiny' and 'base' are supported")
-        );
+        assert!(err
+            .to_string()
+            .contains("only 'tiny' and 'base' are supported"));
     }
 
     #[test]
